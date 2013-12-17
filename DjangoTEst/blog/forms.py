@@ -1,6 +1,11 @@
 #-*- coding: utf-8 -*-
 __author__ = 'Alexis'
 from django import forms
+from models import Article
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
 
 
 class ContactForm(forms.Form):

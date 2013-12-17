@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from datetime import datetime
 from blog.models import Article
-from blog.forms import ContactForm
+from blog.forms import ContactForm, ArticleForm
 
 
 def contact(request):
@@ -26,6 +26,17 @@ def contact(request):
         form = ContactForm()  # Nous créons un formulaire vide
 
     return render(request, 'blog/contact.html', locals())
+
+
+def edit_article(request):
+    form = ArticleForm(request.POST)  # Nous reprenons les données
+    if request.method == 'POST':  # S'il s'agit d'une requête POST
+        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
+            form.save()
+    else: # Si ce n'est pas du POST, c'est probablement une requête GET
+        form = ArticleForm(instance=form)  # article est bien entendu un objet d'Article quelconque dans la base de données
+
+    return render(request, 'blog/edit_article.html', locals())
 
 def accueil(request):
     """ Afficher tous les articles de notre blog """
