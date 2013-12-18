@@ -28,15 +28,18 @@ def contact(request):
     return render(request, 'blog/contact.html', locals())
 
 
-def edit_article(request):
-    form = ArticleForm(request.POST)  # Nous reprenons les données
+def edit_article(request, id):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
-        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
-            form.save()
-    else: # Si ce n'est pas du POST, c'est probablement une requête GET
-        form = ArticleForm(instance=form)  # article est bien entendu un objet d'Article quelconque dans la base de données
+        article = get_object_or_404(Article, id=id)
+        article_form = ArticleForm(request.POST, instance=article)
+        if article_form.is_valid():
+            article_form.save()
+        return redirect('blog.views.edit_article', id)
+    else:
+        article = get_object_or_404(Article, id=id)
+        article_form = ArticleForm(instance=article)
+        return render(request, 'blog/edit_article.html', {'article_form': article_form, 'id': id})
 
-    return render(request, 'blog/edit_article.html', locals())
 
 def accueil(request):
     """ Afficher tous les articles de notre blog """
