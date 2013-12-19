@@ -2,6 +2,14 @@
 from django.db import models
 
 
+class Contact(models.Model):
+    nom = models.CharField(max_length=255)
+    adresse = models.TextField()
+    photo = models.ImageField(upload_to="photos/")
+
+    def __unicode__(self):
+           return self.nom
+
 class Article(models.Model):
     titre = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)

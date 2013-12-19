@@ -15,6 +15,7 @@ urlpatterns = patterns('blog.views',
     url(r'^$', 'accueil'),
     url(r'^article/(?P<id>\d+)-(?P<slug>.+)$', 'lire'),
     url(r'^contact/$', 'contact'),
+    url(r'^nouveau-contact/$', 'nouveau_contact'),
     url(r'^edit/(?P<id>\d+)/$', 'edit_article'),
 )
 

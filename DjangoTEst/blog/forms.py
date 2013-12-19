@@ -3,6 +3,12 @@ __author__ = 'Alexis'
 from django import forms
 from models import Article
 
+class NouveauContactForm(forms.Form):
+    nom = forms.CharField()
+    adresse = forms.CharField(widget=forms.Textarea)
+    photo = forms.ImageField()
+
+
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article

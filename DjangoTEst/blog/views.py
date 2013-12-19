@@ -2,8 +2,8 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from datetime import datetime
-from blog.models import Article
-from blog.forms import ContactForm, ArticleForm
+from blog.models import Article, Contact
+from blog.forms import ContactForm, ArticleForm, NouveauContactForm
 
 
 def contact(request):
@@ -91,3 +91,22 @@ def addition(request, nombre1, nombre2):
 
 def mapage(request):
     return render(request, 'blog/mapage.html')
+
+
+def nouveau_contact(request):
+    sauvegarde = False
+
+    if request.method == "POST":
+           form = NouveauContactForm(request.POST, request.FILES)
+           if form.is_valid():
+                   contact = Contact()
+                   contact.nom = form.cleaned_data["nom"]
+                   contact.adresse = form.cleaned_data["adresse"]
+                   contact.photo = form.cleaned_data["photo"]
+                   contact.save()
+
+                   sauvegarde = True
+    else:
+           form = NouveauContactForm()
+
+    return render(request, 'blog/contact.html',locals())
