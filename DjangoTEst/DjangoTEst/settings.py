@@ -27,6 +27,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
+MEDIA_ROOT = 'media/'
+
+MEDIA_URL = '/media/'
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'blog',
+    'mini_url'
 )
 
 MIDDLEWARE_CLASSES = (

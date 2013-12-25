@@ -1,9 +1,14 @@
 #-*- coding: utf-8 -*-
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
+from django.views.generic import TemplateView
 from datetime import datetime
 from blog.models import Article, Contact
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm
+
+
+class FAQView(TemplateView):
+    template_name = "blog/faq.html"
 
 
 def contact(request):
@@ -109,4 +114,9 @@ def nouveau_contact(request):
     else:
            form = NouveauContactForm()
 
-    return render(request, 'blog/contact.html',locals())
+    return render(request, 'blog/contact.html', locals())
+
+
+def voir_contacts(request):
+    contacts = Contact.objects.all()
+    return render(request, 'blog/voir_contacts.html',{'contacts':contacts})
