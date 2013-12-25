@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MiniURL Home</title>
+</head>
+<body>
+    <h1>Le raccourcisseur d'URLs spécial crêpes bretonnes !</h1>
+    <p><a href="{% url "mini_url.views.raccourcir" %}">Raccouricir une URL</a></p>
+    <p>Liste des URLs raccourcies :</p>
+    <ul>
+        {% for url in urls %}
+            <li>{{ url.longURL }} via <a href="{% url 'mini_url.views.redirection' url.code %}">{% url 'mini_url.views.redirection' url.code %}</a> par {{ url.pseudo }} ({{ url.nbAcces }} accès)</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raccourcir une URL</title>
+</head>
+<body>
+    <form action="{% url "mini_url.views.raccourcir" %}" method="post">{% csrf_token %}
+    {{ miniurl_form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>
