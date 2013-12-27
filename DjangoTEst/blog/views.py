@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from datetime import datetime
 from blog.models import Article, Contact
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm
@@ -9,6 +9,13 @@ from blog.forms import ContactForm, ArticleForm, NouveauContactForm
 
 class FAQView(TemplateView):
     template_name = "blog/faq.html"
+
+
+class ListeArticles(ListView):
+    model = Article
+    context_object_name = "derniers_articles"
+    template_name = "blog/accueil.html"
+    paginate_by = 5
 
 
 def contact(request):
@@ -44,12 +51,6 @@ def edit_article(request, id):
         article = get_object_or_404(Article, id=id)
         article_form = ArticleForm(instance=article)
         return render(request, 'blog/edit_article.html', {'article_form': article_form, 'id': id})
-
-
-def accueil(request):
-    """ Afficher tous les articles de notre blog """
-    articles = Article.objects.all() # Nous sélectionnons tous nos articles
-    return render(request, 'blog/accueil.html', {'derniers_articles':articles})
 
 
 def lire(request, id, slug):
