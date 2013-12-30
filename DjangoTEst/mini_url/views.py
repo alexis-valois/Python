@@ -1,7 +1,11 @@
 #-*- coding: utf-8 -*-
 from django.shortcuts import redirect, get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from models import MiniURL
 from forms import MiniURLForm
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 
 def liste(request):
@@ -10,6 +14,40 @@ def liste(request):
 
     return render(request, 'mini_url/liste.html', locals())
 
+
+class URLCreate(CreateView):
+    model = MiniURL
+    template_name = 'mini_url/nouveau.html'
+    form_class = MiniURLForm
+    success_url = reverse_lazy(liste)
+
+
+class URLUpdate(UpdateView):
+    model = MiniURL
+    template_name = 'mini_url/nouveau.html'
+    form_class = MiniURLForm
+    success_url = reverse_lazy(liste)
+
+    def get_object(self, queryset=None):
+           code = self.kwargs.get('code', None)
+           return get_object_or_404(MiniURL, code=code)
+
+
+    def form_valid(self, form):
+           self.object = form.save()
+           messages.success(self.request, "Votre profil a été mis à jour avec succès.")  # Envoi d'un message à l'utilisateur
+           return HttpResponseRedirect(self.get_success_url())
+
+
+class URLDelete(DeleteView):
+    model = MiniURL
+    context_object_name = "mini_url"
+    template_name = 'mini_url/supprimer.html'
+    success_url = reverse_lazy(liste)
+
+    def get_object(self, queryset=None):
+        code = self.kwargs.get('code', None)
+        return get_object_or_404(MiniURL, code=code)
 
 def nouveau(request):
     """Ajout d'une redirection"""
