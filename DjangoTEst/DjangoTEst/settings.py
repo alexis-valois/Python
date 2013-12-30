@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'blog',
-    'mini_url'
+    'mini_url',
+    'QTest'
 )
 
 MIDDLEWARE_CLASSES = (
