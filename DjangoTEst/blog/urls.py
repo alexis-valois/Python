@@ -4,12 +4,13 @@ __author__ = 'Alexis'
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from blog.views import FAQView
-from blog.views import ListeArticles
+from blog.views import ListeArticles, LireArticle
 
 urlpatterns = patterns('blog.views',
-    url(r'^$', ListeArticles.as_view(), name="blog_categorie"),
+    url(r'^$', ListeArticles.as_view()),
+    url(r'^categorie/(\w+)$', ListeArticles.as_view(), name="blog_categorie"),
     url(r'^home/$', 'home'), # Accueil du blog
-    url(r'^article/(?P<id_article>\d+)/$', 'view_article'), # Vue d'un article
+    #url(r'^article/(?P<id_article>\d+)/$', 'view_article'), # Vue d'un article
     url(r'^articles/(?P<year>\d{4})/(?P<month>\d{2})/$', 'list_articles'), # Vue des articles d'un mois précis
     url(r'^redirection/$', 'view_redirection'),
     url(r'^tp1$', 'tpl'),
@@ -21,5 +22,6 @@ urlpatterns = patterns('blog.views',
     url(r'^edit/(?P<id>\d+)/$', 'edit_article'),
     url(r'^voir-contact/$', 'voir_contacts'),
     url(r'^faq/$', FAQView.as_view()),   # Nous demandons la vue correspondant à la classe FAQView créée précédemment
+    url(r'^article/(?P<pk>\d+)$', LireArticle.as_view(), name='blog_lire'),
 )
 urlpatterns += staticfiles_urlpatterns()

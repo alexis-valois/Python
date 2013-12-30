@@ -22,3 +22,10 @@
            {% endif %}
     </div>
 {% endif %}
+
+<h3>Catégories disponibles</h3>
+<ul>
+{% for categorie in categories %}
+    <li><a href="{% url "blog_categorie" categorie.id %}">{{ categorie.nom }}</a></li>
+{% endfor %}
+</ul>

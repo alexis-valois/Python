@@ -1,13 +1,8 @@
 #-*- coding: utf-8 -*-
-__author__ = 'Alexis'
-
 from django.conf.urls import patterns, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
 
 urlpatterns = patterns('mini_url.views',
-    url(r'^home/$', 'home'),
-    url(r'^raccourcir/$', 'raccourcir'),
-    url(r'^redirection/(?P<code>[-A-Za-z0-9_]{10})/$', 'redirection'),
+    url(r'^$', 'liste', name='url_liste'),  # Une string vide indique la racine
+    url(r'^nouveau/$', 'nouveau', name='url_nouveau'),
+    url(r'^(?P<code>\w{6})/$', 'redirection', name='url_redirection'),  # (?P<code>\w{6}) capturera 6 caractères alphanumériques. 
 )
-urlpatterns += staticfiles_urlpatterns()

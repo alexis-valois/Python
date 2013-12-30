@@ -1,10 +1,16 @@
 #-*- coding: utf-8 -*-
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from datetime import datetime
-from blog.models import Article, Contact
+from blog.models import Article, Contact, Categorie
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm
+
+
+class LireArticle(DetailView):
+    context_object_name = "article"
+    model = Article
+    template_name = "blog/lire.html"
 
 
 class FAQView(TemplateView):
@@ -16,6 +22,16 @@ class ListeArticles(ListView):
     context_object_name = "derniers_articles"
     template_name = "blog/accueil.html"
     paginate_by = 5
+
+    def get_queryset(self):
+       return Article.objects.filter(categorie__id=self.args[0])
+
+    def get_context_data(self, **kwargs):
+       # Nous récupérons le contexte depuis la super-classe
+       context = super(ListeArticles, self).get_context_data(**kwargs)
+       # Nous ajoutons la liste des catégories, sans filtre particulier
+       context['categories'] = Categorie.objects.all()
+       return context
 
 
 def contact(request):
@@ -53,9 +69,9 @@ def edit_article(request, id):
         return render(request, 'blog/edit_article.html', {'article_form': article_form, 'id': id})
 
 
-def lire(request, id, slug):
-    article = get_object_or_404(Article, id=id, slug=slug)
-    return render(request, 'blog/lire.html', {'article':article})
+#def lire(request, id, slug):
+#    article = get_object_or_404(Article, id=id, slug=slug)
+#    return render(request, 'blog/lire.html', {'article':article})
 
 
 def home(request):

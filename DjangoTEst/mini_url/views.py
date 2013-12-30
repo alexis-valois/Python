@@ -1,42 +1,33 @@
 #-*- coding: utf-8 -*-
-from mini_url.forms import MiniURLForm
-from mini_url.models import MiniURL
-from django.shortcuts import render, redirect
-import string
-import random
+from django.shortcuts import redirect, get_object_or_404, render
+from models import MiniURL
+from forms import MiniURLForm
 
 
-def home(request):
-    return render(request, 'mini_url/home.html', {'urls': MiniURL.objects.order_by('-nbAcces')})
+def liste(request):
+    """Affichage des redirections"""
+    minis = MiniURL.objects.order_by('-nb_acces')
 
-def raccourcir(request):
-    if request.method == 'POST':  # S'il s'agit d'une requête POST
-        form = MiniURLForm(request.POST)  # Nous reprenons les données
+    return render(request, 'mini_url/liste.html', locals())
 
-        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
 
-            miniUrl = MiniURL()
-            miniUrl.longURL = form.cleaned_data['longURL']
-            miniUrl.pseudo = form.cleaned_data['pseudo']
-            miniUrl.code = generer(10)
-            miniUrl.save()
-            return redirect('mini_url.views.home')
+def nouveau(request):
+    """Ajout d'une redirection"""
+    if request.method == "POST":
+        form = MiniURLForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(liste)
+    else:
+        form = MiniURLForm()
 
-    else: # Si ce n'est pas du POST, c'est probablement une requête GET
-        form = MiniURLForm()  # Nous créons un formulaire vide
-
-    return render(request, 'mini_url/raccourcir.html', {'miniurl_form': form})
+    return render(request, 'mini_url/nouveau.html', {'form':form})
 
 
 def redirection(request, code):
-    miniUrl = MiniURL.objects.get(code=code)
-    miniUrl.nbAcces += 1
-    miniUrl.save()
-    return redirect(miniUrl.longURL)
+    """Redirection vers l'URL enregistrée"""
+    mini = get_object_or_404(MiniURL, code=code)
+    mini.nb_acces += 1
+    mini.save()
 
-
-def generer(N):
-    caracteres = string.letters + string.digits
-    aleatoire = [random.choice(caracteres) for _ in xrange(N)]
-
-    return ''.join(aleatoire)
+    return redirect(mini.url, permanent=True)
