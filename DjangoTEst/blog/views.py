@@ -115,6 +115,10 @@ def mapage(request):
     return render(request, 'blog/mapage.html')
 
 
+def citation(request):
+    return render(request, 'blog/citation.html')
+
+
 def nouveau_contact(request):
     sauvegarde = False
 
