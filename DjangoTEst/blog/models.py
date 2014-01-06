@@ -1,6 +1,17 @@
 #-*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
+
+class Profil(models.Model):
+    user = models.OneToOneField(User)  # La liaison OneToOne vers le modèle User
+    site_web = models.URLField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
+    signature = models.TextField(null=True, blank=True)
+    inscrit_newsletter = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u"Profil de {0}".format(self.user.username)
 
 class Contact(models.Model):
     nom = models.CharField(max_length=255)
