@@ -2,6 +2,7 @@
 from django import template
 from django.utils.html import escape
 from random import randint
+from django.template.base import VariableDoesNotExist
 
 register = template.Library()
 
@@ -57,23 +58,10 @@ def smart_truncate(texte, nb_caracteres=20):
 def random(parser, token):
     """ Tag générant un nombre aléatoire, entre les bornes données en arguments """
     #Séparation des paramètres contenus dans l'objet token
-    #Le premier élément du token est toujours le nom du tag en cours
     try:
            nom_tag, begin, end = token.split_contents()
     except ValueError:
-           msg = u'Le tag %s doit prendre exactement deux arguments.' % token.split_contents()[0]
-           raise template.TemplateSyntaxError(msg)
-
-    #Nous vérifions ensuite que nos deux paramètres sont bien des entiers
-    try:
-           begin, end = int(begin), int(end)
-    except ValueError:
-           msg = u'Les arguments du tag %s sont obligatoirement des entiers.' % nom_tag
-           raise template.TemplateSyntaxError(msg)
-
-    #Nous vérifions si le premier est inférieur au second
-    if begin > end:
-           msg = u'L\'argument "begin" doit obligatoirement être inférieur à l\'argument "end" dans le tag %s.' % nom_tag
+           msg = u'Le tag random doit prendre exactement deux arguments.'
            raise template.TemplateSyntaxError(msg)
 
     return RandomNode(begin, end)
@@ -85,4 +73,26 @@ class RandomNode(template.Node):
            self.end = end
 
     def render(self, context):
+           not_exist = False
+
+           try:
+              begin = template.Variable(self.begin).resolve(context)
+              self.begin = int(begin)
+           except (VariableDoesNotExist, ValueError):
+              not_exist = self.begin
+           try:
+              end = template.Variable(self.end).resolve(context)
+              self.end = int(end)
+           except (VariableDoesNotExist, ValueError):
+              not_exist = self.end
+
+           if not_exist:
+              msg = u'L\'argument "%s" n\'existe pas, ou n\'est pas un entier.' % not_exist
+              raise template.TemplateSyntaxError(msg)
+
+           #Nous vérifions si le premier entier est bien inférieur au second
+           if self.begin > self.end:
+              msg = u'L\'argument "begin" doit obligatoirement être inférieur à l\'argument "end" dans le tag random.'
+              raise template.TemplateSyntaxError(msg)
+
            return str(randint(self.begin, self.end))

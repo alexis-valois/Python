@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'blog',
     'mini_url',
-    'QTest'
+    'QTest',
+    'stats'
 )
 
 
@@ -65,6 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'stats.middleware.StatsMiddleware',
 )
 
 ROOT_URLCONF = 'DjangoTEst.urls'
