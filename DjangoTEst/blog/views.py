@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from datetime import datetime
 from blog.models import Article, Contact, Categorie
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm
+from django.contrib import messages
 
 
 class LireArticle(DetailView):
@@ -32,6 +33,11 @@ class ListeArticles(ListView):
        # Nous ajoutons la liste des catégories, sans filtre particulier
        context['categories'] = Categorie.objects.all()
        return context
+
+
+def accueil(request):
+    messages.add_message(request, messages.INFO, u'Bonjour visiteur !')
+    return render(request, 'blog/accueil.html')
 
 
 def contact(request):

@@ -24,5 +24,6 @@ urlpatterns = patterns('blog.views',
     url(r'^faq/$', FAQView.as_view()),   # Nous demandons la vue correspondant à la classe FAQView créée précédemment
     url(r'^article/(?P<pk>\d+)$', LireArticle.as_view(), name='blog_lire'),
     url(r'^citation/$', 'citation'),
+    url(r'^accueil/$', 'accueil'),
 )
 urlpatterns += staticfiles_urlpatterns()

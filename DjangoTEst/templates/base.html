@@ -7,21 +7,13 @@
 
 <body>
 
-<header>Crêpes bretonnes</header>
-    <nav>
-       {% block nav %}
-       <ul>
-           <li><a href="/">Accueil</a></li>
-           <li><a href="/blog/">Blog</a></li>
-
-      <li><a href="/contact/">Contact</a></li>
-       </ul>
-       {% endblock %}
-   </nav>
-
-   <section id="content">
-       {% block content %}{% endblock %}
-   </section>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 <footer>© Crêpes bretonnes</footer>
 </body>
