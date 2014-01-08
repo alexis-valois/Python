@@ -4,7 +4,8 @@ __author__ = 'Alexis'
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from blog.views import FAQView
-from blog.views import ListeArticles, LireArticle
+from blog.views import ListeArticles, LireArticle, contact
+from django.views.decorators.cache import cache_page
 
 urlpatterns = patterns('blog.views',
     url(r'^$', ListeArticles.as_view()),
@@ -17,7 +18,7 @@ urlpatterns = patterns('blog.views',
     url(r'^addition/(?P<nombre1>\d+)/(?P<nombre2>\d+)/$', 'addition'),
     url(r'^mapage', 'mapage'),
     #url(r'^article/(?P<id>\d+)-(?P<slug>.+)$', 'lire'),
-    url(r'^contact/$', 'contact'),
+    url(r'^contact/$', cache_page(60 * 15)(contact)),
     url(r'^nouveau-contact/$', 'nouveau_contact'),
     url(r'^edit/(?P<id>\d+)/$', 'edit_article'),
     url(r'^voir-contact/$', 'voir_contacts'),

@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 from datetime import datetime
 from blog.models import Article, Contact, Categorie
-from blog.forms import ContactForm, ArticleForm, NouveauContactForm
+from django.views.decorators.cache import cache_page
 from django.contrib import messages
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm, ConnexionForm
 from django.contrib.auth import authenticate, login
@@ -108,12 +108,13 @@ def edit_article(request, id):
 #    return render(request, 'blog/lire.html', {'article':article})
 
 
+@cache_page(60 * 15)
 def home(request):
     text = """<h1>Bienvenue sur mon blog !</h1>
             <p>Les crêpes bretonnes ça tue des mouettes en plein vol !</p>"""
     return HttpResponse(text)
 
-
+@cache_page(60 * 15)
 def view_article(request, id_article):
     """ Vue qui affiche un article selon son identifiant (ou ID, ici un numéro). Son ID est le second paramètre de la fonction
         (pour rappel, le premier paramètre est TOUJOURS la requête de l'utilisateur) """
