@@ -9,6 +9,11 @@ class NouveauContactForm(forms.Form):
     photo = forms.ImageField()
 
 
+class ConnexionForm(forms.Form):
+    username = forms.CharField(label="Nom d'utilisateur", max_length=30)
+    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
+
+
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article

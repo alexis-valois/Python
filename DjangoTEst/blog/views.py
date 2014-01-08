@@ -6,6 +6,34 @@ from datetime import datetime
 from blog.models import Article, Contact, Categorie
 from blog.forms import ContactForm, ArticleForm, NouveauContactForm
 from django.contrib import messages
+from blog.forms import ContactForm, ArticleForm, NouveauContactForm, ConnexionForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from django.shortcuts import render
+from django.core.urlresolvers import reverse
+
+
+def deconnexion(request):
+    logout(request)
+    return redirect(reverse(connexion))
+
+def connexion(request):
+    error = False
+
+    if request.method == "POST":
+        form = ConnexionForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]  # Nous récupérons le nom d'utilisateur
+            password = form.cleaned_data["password"]  # … et le mot de passe
+            user = authenticate(username=username, password=password)  #Nous vérifions si les données sont correctes
+            if user:  # Si l'objet renvoyé n'est pas None
+                login(request, user)  # nous connectons l'utilisateur
+            else: #sinon une erreur sera affichée
+                error = True
+    else:
+        form = ConnexionForm()
+
+    return render(request, 'blog/connexion.html',locals())
 
 
 class LireArticle(DetailView):

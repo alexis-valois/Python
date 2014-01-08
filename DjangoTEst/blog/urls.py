@@ -25,5 +25,7 @@ urlpatterns = patterns('blog.views',
     url(r'^article/(?P<pk>\d+)$', LireArticle.as_view(), name='blog_lire'),
     url(r'^citation/$', 'citation'),
     url(r'^accueil/$', 'accueil'),
+    url(r'^connexion/$', 'connexion', name='connexion'),
+    url(r'^deconnexion/$', 'deconnexion', name='deconnexion'),
 )
 urlpatterns += staticfiles_urlpatterns()
