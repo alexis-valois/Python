@@ -6,11 +6,23 @@ from models import MiniURL
 from forms import MiniURLForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.core.paginator import Paginator, EmptyPage  # Ne pas oublier l'importation
 
 
-def liste(request):
+
+def liste(request, page=1):
     """Affichage des redirections"""
-    minis = MiniURL.objects.order_by('-nb_acces')
+    minis_list = MiniURL.objects.order_by('-nb_acces')
+    paginator = Paginator(minis_list, 5)  # 5 liens par page
+
+    try:
+           # La définition de nos URL autorise comme argument « page » uniquement des entiers,
+           # nous n'avons pas à nous soucier de l'erreur PageNotAnInteger
+           minis = paginator.page(page)
+    except EmptyPage:
+           # Nous vérifions toutefois que nous ne dépassons pas la limite de page
+           # Par convention, nous renvoyons la dernière page dans ce cas
+           minis = paginator.page(paginator.num_pages)
 
     return render(request, 'mini_url/liste.html', locals())
 

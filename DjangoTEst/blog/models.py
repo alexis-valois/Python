@@ -37,6 +37,12 @@ class Article(models.Model):
         """
         return u"%s" % self.titre
 
+    class Meta:
+        permissions = (
+                ("commenter_article","Commenter un article"),
+                ("marquer_article","Marquer un article comme lu"),
+        )
+
 
 class Categorie(models.Model):
     nom = models.CharField(max_length=30)
