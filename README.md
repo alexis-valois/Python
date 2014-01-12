@@ -1,7 +1,7 @@
 Projet de test framework web DJango
 ======
 
-# [Lien vers le tutoriel menant au code de ce projet](http://fr.openclassrooms.com/informatique/cours/developpez-votre-site-web-avec-le-framework-django)
+#### [Lien vers le tutoriel menant au code de ce projet](http://fr.openclassrooms.com/informatique/cours/developpez-votre-site-web-avec-le-framework-django)
 
 Pour installation sous Windows 7 64bits : 
 
