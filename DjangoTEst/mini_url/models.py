@@ -2,14 +2,14 @@
 from django.db import models
 import random
 import string
-
+from django.utils.translation import ugettext_lazy as _
 
 class MiniURL(models.Model):
-    url = models.URLField(verbose_name=u"URL à réduire", unique=True)
+    url = models.URLField(verbose_name=_(u"URL à réduire"), unique=True)
     code = models.CharField(max_length=6, unique=True)
-    date = models.DateTimeField(auto_now_add=True, verbose_name="Date d'enregistrement")
+    date = models.DateTimeField(auto_now_add=True, verbose_name=_(u"Date d'enregistrement"))
     pseudo = models.CharField(max_length=255, blank=True, null=True)
-    nb_acces = models.IntegerField(default=0, verbose_name=u"Nombre d'accès à l'URL")
+    nb_acces = models.IntegerField(default=0, verbose_name=_(u"Nombre d'accès à l'URL"))
 
     def __unicode__(self):
         return u"[{0}] {1}".format(self.code, self.url)
@@ -27,5 +27,5 @@ class MiniURL(models.Model):
         self.code = ''.join(aleatoire)
 
     class Meta:
-        verbose_name = "Mini URL"
-        verbose_name_plural = "Minis URL"
+        verbose_name = _(u"Mini URL")
+        verbose_name_plural = _(u"Minis URLs")

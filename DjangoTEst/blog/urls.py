@@ -28,5 +28,6 @@ urlpatterns = patterns('blog.views',
     url(r'^accueil/$', 'accueil'),
     url(r'^connexion/$', 'connexion', name='connexion'),
     url(r'^deconnexion/$', 'deconnexion', name='deconnexion'),
+    url(r'^test_i18n/$', 'test_i18n'),
 )
 urlpatterns += staticfiles_urlpatterns()

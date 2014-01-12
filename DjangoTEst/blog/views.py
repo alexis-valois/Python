@@ -11,11 +11,26 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 
 
 def deconnexion(request):
     logout(request)
     return redirect(reverse(connexion))
+
+
+def test_i18n(request):
+    nb_chats = 2
+    couleur = "blanc"  # Nous supposons que tous les chats vont avoir la même couleur
+    chaine = _(u"Bonjour les zéros !")
+    ip = _(u"Votre IP est %(ip)s") % {'ip': request.META['REMOTE_ADDR']}
+    infos = ungettext(u"… et selon mes informations, vous avez %(nb)s chat %(color)s !",
+                      u"… et selon mes informations, vous avez %(nb)s chats %(color)ss !",
+                      nb_chats) % {'nb': nb_chats, 'color': couleur}
+
+    return render(request, 'blog/test_i18n.html', locals())
+
 
 def connexion(request):
     error = False
