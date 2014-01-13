@@ -21,5 +21,11 @@ Interpréteur et Framework:
     1. Installer Visual C++ Express 2010 : http://go.microsoft.com/?linkid=9709952
     2. Définir la variable correspondante a VC++ 2010 (en ligne de commande) : SET VS90COMNTOOLS=%VS100COMNTOOLS%
     3. Lancer la commande pip install pillow
+8. Installer Gettext (supérieur à 0.15)
+    1. Télécharger **gettext-runtime-X.zip** et **gettext-tools-X.zip** depuis http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/
+    2. Extraire le contenu des 2 fichiers zip vers C:\Program Files\gettext\bin
+    3. Ajouter le chemin C:\Program Files (x86)\Gettext\bin à la variable d'entironnement Windows Path
+    
+    *Pour tester l'installation de gettext, il faut ouvrir une fenêtre de commande et tapper `xgettext --version`*
     
 IDE: PyCharm 3.0, version commerciale pour gestion correcte de Django 
