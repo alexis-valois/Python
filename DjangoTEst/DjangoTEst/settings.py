@@ -119,6 +119,10 @@ LANGUAGES = (
    ('en', gettext('English')),
 )
 
+LOCALE_PATHS = (
+    '/locale/',
+)
+
 APPEND_SLASH = True  # Ajoute un slash en fin d'URL
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
