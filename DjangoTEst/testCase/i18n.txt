@@ -1,0 +1,4 @@
+from django.utils import translation
+from django.utils.translation import ugettext as _
+translation.activate('en')
+print _(u"Bonjour les zros !")
